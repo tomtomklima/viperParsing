@@ -1,5 +1,8 @@
 import openpyxl
 import docx
+from os import listdir
+from os.path import isfile, join
+from docx.shared import Inches
 
 
 class Defect:
@@ -15,6 +18,7 @@ class Defect:
             place_c,
             severity,
             repair,
+            photo_id,
     ):
         self.id_number = str(id_number.value)
         self.name = str(name.value)
@@ -28,10 +32,15 @@ class Defect:
         self.repair_a = "☒" if str(repair.value) == "O - oprava" else "☐"
         self.repair_b = "☒" if str(repair.value) == "N - výměna" else "☐"
         self.repair_c = "☒" if str(repair.value) == "N - sleva" else "☐"
+        self.photo_id = str(photo_id.value)
 
 
 def main(path):
     sheet = openpyxl.load_workbook(path).active
+
+    photos_path = "files/photos/"
+    photos = [f for f in listdir(photos_path) if isfile(join(photos_path, f))]
+
     
     defects = []
     for row_id in range(4, 9999):
@@ -49,6 +58,7 @@ def main(path):
             sheet.cell(row_id, 6),
             sheet.cell(row_id, 12),
             sheet.cell(row_id, 13),
+            sheet.cell(row_id, 3),
         )
         defects.append(defect)
     
@@ -78,7 +88,13 @@ def main(path):
                             new_value = str(getattr(defect, replacing_index)) or ""
                             run.text = run.text.replace(keyword, new_value)
                             print(keyword + " -> " + new_value)
-        
+
+        for photo_name in photos:
+            if photo_name.startswith(defect.photo_id):
+                document.add_picture(photos_path + photo_name, width=Inches(4))
+                document.add_paragraph("\r")
+                print("added photo " + photo_name)
+
         new_name = "ELI II Zápis o reklamaci č. " + defect.id_number
         document.save("files/output/" + new_name + ".docx")
         print("Saved document named: " + new_name)
