@@ -91,7 +91,7 @@ def main(path):
 
         for photo_name in photos:
             if photo_name.startswith(defect.photo_id):
-                document.add_picture(photos_path + photo_name, width=Inches(4))
+                document.add_picture(photos_path + photo_name, width=4*914400)
                 document.add_paragraph("\r")
                 print("added photo " + photo_name)
 
