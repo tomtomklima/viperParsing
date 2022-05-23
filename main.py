@@ -14,6 +14,7 @@ class Defect:
             place_b,
             place_c,
             severity,
+            repair,
     ):
         self.id_number = str(id_number.value)
         self.name = str(name.value)
@@ -24,6 +25,9 @@ class Defect:
         self.place_b = str(place_b.value)
         self.place_c = str(place_c.value)
         self.severity = str(severity.value)
+        self.repair_a = "☒" if str(repair.value) == "O - oprava" else "☐"
+        self.repair_b = "☒" if str(repair.value) == "N - výměna" else "☐"
+        self.repair_c = "☒" if str(repair.value) == "N - sleva" else "☐"
 
 
 def main(path):
@@ -35,7 +39,7 @@ def main(path):
             break
         
         defect = Defect(
-            sheet.cell(row_id, 3),
+            sheet.cell(row_id, 14),
             sheet.cell(row_id, 9),
             sheet.cell(row_id, 10),
             sheet.cell(row_id, 11),
@@ -43,6 +47,7 @@ def main(path):
             sheet.cell(row_id, 4),
             sheet.cell(row_id, 5),
             sheet.cell(row_id, 6),
+            sheet.cell(row_id, 12),
             sheet.cell(row_id, 13),
         )
         defects.append(defect)
@@ -59,6 +64,9 @@ def main(path):
             "%5_description%": "description",
             "%6_description_note%": "description_note",
             "%7_severity%": "severity",
+            "%8_repair_a%": "repair_a",
+            "%9_repair_b%": "repair_b",
+            "%10_repair_c%": "repair_c",
         }
         for keyword, replacing_index in mapper.items():
             for paragraph in document.paragraphs:
