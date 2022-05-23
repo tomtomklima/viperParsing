@@ -1,5 +1,5 @@
 import openpyxl
-from docx import Document
+import docx
 
 
 class Defect:
@@ -48,7 +48,7 @@ def main(path):
         defects.append(defect)
     
     for defect in defects:
-        document = Document("files/template.docx")
+        document = docx.Document("files/template.docx")
         
         mapper = {
             "%0_reclamation_number%": "id_number",
@@ -65,8 +65,8 @@ def main(path):
                 if paragraph.text.find(keyword) != -1:
                     # added run for keeping style
                     for run in paragraph.runs:
-                        inlinePosition = run.text.find(keyword)
-                        if inlinePosition != -1:
+                        inline_position = run.text.find(keyword)
+                        if inline_position != -1:
                             new_value = str(getattr(defect, replacing_index)) or ""
                             run.text = run.text.replace(keyword, new_value)
                             print(keyword + " -> " + new_value)
