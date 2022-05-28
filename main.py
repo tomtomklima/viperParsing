@@ -2,8 +2,6 @@ import openpyxl
 import docx
 from os import listdir
 from os.path import isfile, join
-from docx.shared import Inches
-
 
 class Defect:
     def __init__(
@@ -91,7 +89,8 @@ def main(path):
 
         for photo_name in photos:
             if photo_name.startswith(defect.photo_id):
-                document.add_picture(photos_path + photo_name, width=4*914400)
+                document.add_paragraph(photo_name + "\r")
+                document.add_picture(photos_path + photo_name, width=4.8*914400)
                 document.add_paragraph("\r")
                 print("added photo " + photo_name)
 
