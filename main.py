@@ -1,5 +1,6 @@
 import openpyxl
 import docx
+import docx2pdf
 from os import listdir
 from os.path import isfile, join
 
@@ -97,6 +98,7 @@ def main(path):
         new_name = "ELI II Zápis o reklamaci č. " + defect.id_number
         document.save("files/output/" + new_name + ".docx")
         print("Saved document named: " + new_name)
+        docx2pdf.convert("files/output/" + new_name + ".docx", "files/output/" + new_name + ".pdf")
 
 
 if __name__ == '__main__':
