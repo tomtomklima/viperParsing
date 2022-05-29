@@ -88,11 +88,16 @@ def main(path):
                             run.text = run.text.replace(keyword, new_value)
                             print(keyword + " -> " + new_value)
 
+        photos_count = 0
         for photo_name in photos:
             if photo_name.startswith(defect.photo_id):
-                document.add_paragraph(photo_name + "\r")
+                photos_count += 1
+                document.add_paragraph(photo_name)
                 document.add_picture(photos_path + photo_name, width=4.8*914400)
-                document.add_paragraph("\r")
+                if photos_count % 2 == 0:
+                    document.paragraphs[-1].add_run().add_break(docx.enum.text.WD_BREAK.PAGE)
+                else:
+                    document.add_paragraph("\r")
                 print("added photo " + photo_name)
 
         new_name = "ELI II Zápis o reklamaci č. " + defect.id_number
