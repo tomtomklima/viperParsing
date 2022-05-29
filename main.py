@@ -19,19 +19,19 @@ class Defect:
             repair,
             photo_id,
     ):
-        self.id_number = str(id_number.value)
-        self.name = str(name.value)
-        self.description = str(description.value)
-        self.description_note = str(description_note.value)
-        self.weight = str(weight.value)
-        self.place_a = str(place_a.value)
-        self.place_b = str(place_b.value)
-        self.place_c = str(place_c.value)
-        self.severity = str(severity.value)
-        self.repair_a = "☒" if str(repair.value) == "O - oprava" else "☐"
-        self.repair_b = "☒" if str(repair.value) == "N - výměna" else "☐"
-        self.repair_c = "☒" if str(repair.value) == "N - sleva" else "☐"
-        self.photo_id = str(photo_id.value)
+        self.id_number = str(id_number.value or "")
+        self.name = str(name.value or "")
+        self.description = str(description.value or "")
+        self.description_note = str(description_note.value or "")
+        self.weight = str(weight.value or "")
+        self.place_a = str(place_a.value or "")
+        self.place_b = str(place_b.value or "")
+        self.place_c = str(place_c.value or "")
+        self.severity = str(severity.value or "")
+        self.repair_a = "☒" if str(repair.value or "") == "O - oprava" else "☐"
+        self.repair_b = "☒" if str(repair.value or "") == "N - výměna" else "☐"
+        self.repair_c = "☒" if str(repair.value or "") == "N - sleva" else "☐"
+        self.photo_id = str(photo_id.value or "")
 
 
 def main(path):
