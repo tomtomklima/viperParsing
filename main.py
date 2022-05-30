@@ -95,6 +95,13 @@ def main(path):
         for photo_name in photos:
             photos_count_total += 1
             if photo_name.startswith(defect.photo_id):
+    
+                if photos_count != 0:
+                    if photos_count % 2 == 0:
+                        document.paragraphs[-1].add_run().add_break(docx.enum.text.WD_BREAK.PAGE)
+                    else:
+                        document.add_paragraph("")
+    
                 photos_count += 1
                 document.add_paragraph(photo_name)
 
@@ -109,10 +116,6 @@ def main(path):
                 else:
                     document.add_picture(path_photo_name, height=Cm(10))
 
-                if photos_count % 2 == 0 and photos_count_total < len(photo_name):
-                    document.paragraphs[-1].add_run().add_break(docx.enum.text.WD_BREAK.PAGE)
-                else:
-                    document.add_paragraph("")
                 print("added photo " + photo_name)
 
         new_name = "ELI II Zápis o reklamaci č. " + defect.id_number
