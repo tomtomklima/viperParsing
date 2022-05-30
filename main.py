@@ -4,7 +4,7 @@ from docx.shared import Cm
 import docx2pdf
 from os import listdir
 from os.path import isfile, join
-from PIL import Image
+from PIL import Image, ImageOps
 
 class Defect:
     def __init__(
@@ -99,6 +99,11 @@ def main(path):
                 document.add_paragraph(photo_name)
 
                 path_photo_name = photos_path + photo_name
+                image = Image.open(path_photo_name)
+                image = ImageOps.exif_transpose(image)
+                image.save(path_photo_name)
+                image.close()
+
                 if photo_too_wide(path_photo_name):
                     document.add_picture(path_photo_name, width=Cm(15.5))
                 else:
