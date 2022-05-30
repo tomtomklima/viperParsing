@@ -1,8 +1,10 @@
 import openpyxl
 import docx
+from docx.shared import Cm
 import docx2pdf
 from os import listdir
 from os.path import isfile, join
+from PIL import Image
 
 class Defect:
     def __init__(
@@ -95,17 +97,28 @@ def main(path):
             if photo_name.startswith(defect.photo_id):
                 photos_count += 1
                 document.add_paragraph(photo_name)
-                document.add_picture(photos_path + photo_name, width=4.8*914400)
+
+                path_photo_name = photos_path + photo_name
+                if photo_too_wide(path_photo_name):
+                    document.add_picture(path_photo_name, width=Cm(15.5))
+                else:
+                    document.add_picture(path_photo_name, height=Cm(10))
+
                 if photos_count % 2 == 0 and photos_count_total < len(photo_name):
                     document.paragraphs[-1].add_run().add_break(docx.enum.text.WD_BREAK.PAGE)
                 else:
-                    document.add_paragraph("\r")
+                    document.add_paragraph("")
                 print("added photo " + photo_name)
 
         new_name = "ELI II Zápis o reklamaci č. " + defect.id_number
         document.save("files/output/" + new_name + ".docx")
         print("Saved document named: " + new_name)
         docx2pdf.convert("files/output/" + new_name + ".docx", "files/output/" + new_name + ".pdf")
+
+def photo_too_wide(path_photo_name):
+    width, height = Image.open(path_photo_name).size
+
+    return width > 2*height
 
 
 if __name__ == '__main__':
