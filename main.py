@@ -89,12 +89,14 @@ def main(path):
                             print(keyword + " -> " + new_value)
 
         photos_count = 0
+        photos_count_total = 0
         for photo_name in photos:
+            photos_count_total += 1
             if photo_name.startswith(defect.photo_id):
                 photos_count += 1
                 document.add_paragraph(photo_name)
                 document.add_picture(photos_path + photo_name, width=4.8*914400)
-                if photos_count % 2 == 0:
+                if photos_count % 2 == 0 and photos_count_total < len(photo_name):
                     document.paragraphs[-1].add_run().add_break(docx.enum.text.WD_BREAK.PAGE)
                 else:
                     document.add_paragraph("\r")
